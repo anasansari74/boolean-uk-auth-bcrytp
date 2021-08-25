@@ -12,6 +12,7 @@ export const loginUser = async (req: Request, res: Response) => {
     // Check if credentials are valid
     const loggedUser = findUserWithValidation(userCreds);
 
+    // handle result
     res.json({
       user: {
         id: (await loggedUser).id,
@@ -21,5 +22,4 @@ export const loginUser = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(401).json({ error: error.message });
   }
-  // handle result
 };

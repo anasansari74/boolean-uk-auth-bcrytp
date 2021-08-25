@@ -8,8 +8,8 @@ const app = express();
 
 // Routers
 
-import userRouter from "./resources/user/router";
 import authRouter from "./resources/auth/router";
+import userRouter from "./resources/user/router";
 
 // Middle wares
 app.use(logger("dev"));
@@ -19,6 +19,7 @@ app.use(cookieParser());
 //App routes
 
 app.use(authRouter);
+
 app.use("/user", userRouter);
 
 app.all("*", (req, res) => {
