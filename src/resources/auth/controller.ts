@@ -4,6 +4,8 @@ import { User } from "@prisma/client";
 
 import { findUserWithValidation } from "./service";
 
+import { createToken } from "../../utils/authGenerator";
+
 export const loginUser = async (req: Request, res: Response) => {
   // Get user credentials
   const userCreds: User = req.body;
@@ -13,9 +15,15 @@ export const loginUser = async (req: Request, res: Response) => {
     const loggedUser = findUserWithValidation(userCreds);
 
     // handle result
+    const token = createToken({
+      id: (await loggedUser).id,
+      username: (await loggedUser).username,
+    });
+    console.log("token", token);
+
+    res.cookie("token:", token, { httpOnly: true });
     res.json({
       user: {
-        id: (await loggedUser).id,
         username: (await loggedUser).username,
       },
     });
